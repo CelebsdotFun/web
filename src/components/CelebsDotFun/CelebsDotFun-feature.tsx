@@ -5,7 +5,7 @@ import { WalletButton } from '../solana/solana-provider'
 import { AppHero, ellipsify } from '../ui/ui-layout'
 import { ExplorerLink } from '../cluster/cluster-ui'
 import { useCelebsDotFunProgram } from './CelebsDotFun-data-access'
-import { CelebsDotFunCreate, CelebsDotFunList } from './CelebsDotFun-ui'
+import { CelebsDotFunList } from './CelebsDotFun-ui'
 
 export default function CelebsDotFunFeature() {
   const { publicKey } = useWallet()
@@ -14,10 +14,8 @@ export default function CelebsDotFunFeature() {
   return publicKey ? (
     <div>
       <AppHero
-        title="CelebsDotFun"
-        subtitle={
-          'Create a new account by clicking the "Create" button. The state of a account is stored on-chain and can be manipulated by calling the program\'s methods (increment, decrement, set, and close).'
-        }
+        title="Celebrity AI Meme Coins"
+        subtitle="Mint and trade meme coins powered by AI sentiment analysis of celebrity cultural impact. Choose from living celebrities or deceased legends."
       >
         <p className="mb-6">
           <ExplorerLink path={`account/${programId}`} label={ellipsify(programId.toString())} />

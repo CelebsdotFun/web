@@ -1,29 +1,95 @@
 'use client'
 
 import { AppHero } from '../ui/ui-layout'
+import { useState } from 'react'
 
-const links: { label: string; href: string }[] = [
-  { label: 'Solana Docs', href: 'https://docs.solana.com/' },
-  { label: 'Solana Faucet', href: 'https://faucet.solana.com/' },
-  { label: 'Solana Cookbook', href: 'https://solanacookbook.com/' },
-  { label: 'Solana Stack Overflow', href: 'https://solana.stackexchange.com/' },
-  { label: 'Solana Developers GitHub', href: 'https://github.com/solana-developers/' },
+// Sample data - In production, this would come from your Solana program
+const aliveCelebrities = [
+  { name: 'Elon Musk', aiScore: 92, memeValue: '420.69 SOL', trend: '+12%' },
+  { name: 'Keanu Reeves', aiScore: 88, memeValue: '69.42 SOL', trend: '+15%' },
+  { name: 'Rick Astley', aiScore: 95, memeValue: '333.33 SOL', trend: '+69%' },
+]
+
+const deadCelebrities = [
+  { name: 'Albert Einstein', aiScore: 89, memeValue: '314.15 SOL', trend: '+31%' },
+  { name: 'Nikola Tesla', aiScore: 86, memeValue: '369.00 SOL', trend: '+25%' },
+  { name: 'Bob Ross', aiScore: 91, memeValue: '420.00 SOL', trend: '+42%' },
 ]
 
 export default function DashboardFeature() {
+  const [selectedPanel, setSelectedPanel] = useState<'alive' | 'dead'>('alive')
+
   return (
-    <div>
-      <AppHero title="gm" subtitle="Say hi to your new Solana dApp." />
-      <div className="max-w-xl mx-auto py-6 sm:px-6 lg:px-8 text-center">
-        <div className="space-y-2">
-          <p>Here are some helpful links to get you started.</p>
-          {links.map((link, index) => (
-            <div key={index}>
-              <a href={link.href} className="link" target="_blank" rel="noopener noreferrer">
-                {link.label}
-              </a>
+    <div className="min-h-screen bg-base-200">
+      <AppHero 
+        title="AI Sentient Meme Coins" 
+        subtitle="Mint and trade celebrity-powered meme coins enhanced by artificial intelligence" 
+      />
+      
+      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        {/* Panel Toggle */}
+        <div className="tabs tabs-boxed justify-center mb-8">
+          <button 
+            className={`tab tab-lg ${selectedPanel === 'alive' ? 'tab-active' : ''}`}
+            onClick={() => setSelectedPanel('alive')}
+          >
+            Living Legends
+          </button>
+          <button 
+            className={`tab tab-lg ${selectedPanel === 'dead' ? 'tab-active' : ''}`}
+            onClick={() => setSelectedPanel('dead')}
+          >
+            Immortal Icons
+          </button>
+        </div>
+
+        {/* Main Content */}
+        <div className="grid grid-cols-1 gap-8">
+          {/* Celebrity Cards Grid */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {(selectedPanel === 'alive' ? aliveCelebrities : deadCelebrities).map((celeb, index) => (
+              <div key={index} className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all">
+                <div className="card-body">
+                  <h2 className="card-title justify-between">
+                    {celeb.name}
+                    <div className="badge badge-secondary">{celeb.trend}</div>
+                  </h2>
+                  
+                  <div className="stats stats-vertical shadow">
+                    <div className="stat">
+                      <div className="stat-title">AI Sentiment Score</div>
+                      <div className="stat-value text-primary">{celeb.aiScore}/100</div>
+                    </div>
+                    <div className="stat">
+                      <div className="stat-title">Meme Value</div>
+                      <div className="stat-value text-secondary">{celeb.memeValue}</div>
+                    </div>
+                  </div>
+
+                  <div className="card-actions justify-end mt-4">
+                    <button className="btn btn-primary">Mint Coins</button>
+                    <button className="btn btn-outline">View Stats</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Info Panel */}
+          <div className="alert alert-info shadow-lg">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current flex-shrink-0 w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <h3 className="font-bold">How it works</h3>
+                <div className="text-xs">
+                  Each celebrity meme coin is powered by our AI sentiment analysis engine that tracks cultural impact, 
+                  social media presence, and historical significance. Mint coins to start trading!
+                </div>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>
